@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DATA CENTER MANAGEMENT</title>
+
+    <link rel="stylesheet" href="./style/common.css">
+    <link rel="stylesheet" href="./style/opening.css">
+    <link rel="stylesheet" href="./style/loading.css">
+    <link rel="stylesheet" href="./style/menu.css">
+    <link rel="stylesheet" href="./style/game.css">
+    <link rel="stylesheet" href="./style/ending.css">
+    <link rel="stylesheet" href="./style/frame.css">
+</head>
+
+<body>
+
+<main id="game">
+
+    <!-- SCREEN FRAME -->
+    <svg class="screen-frame"
+         viewBox="0 0 1000 600"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+
+        <polygon
+            points="72,3 957,3 997,65 997,562 928,597 43,597 3,535 3,38"
+            fill="none"
+            stroke="rgba(17, 225, 225, 0.8)"
+            stroke-width="6"
+            stroke-linejoin="miter"
+        />
+
+        <g
+            fill="none"
+            stroke="#11E1E1"
+            stroke-width="3"
+            opacity="0.4"
+            stroke-linecap="square"
+        >
+            <path d="M 80 15 L 400 15" />
+            <path d="M 600 585 L 920 585" />
+        </g>
+
+    </svg>
+
+
+    <!-- WHITE FLASH -->
+    <div class="flash" id="flash"></div>
+
+
+    <!-- SYSTEM STANDBY -->
+    <section class="standby-screen" id="standbyScreen">
+
+        <h1 class="system-title">SYSTEM STANDBY</h1>
+
+        <p class="start-guide" id="startGuide">
+            아무 키나 눌러 시작
+        </p>
+
+    </section>
+
+
+    <!-- INITIAL LOADING SCREEN -->
+    <section class="loading-screen" id="loadingScreen">
+
+        <h1 class="system-title">SYSTEM INITIALIZATION</h1>
+
+        <p class="loading-status" id="loadingStatus">
+            DCM 네트워크 연결 중...
+        </p>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <p class="loading-percent" id="loadingPercent">0%</p>
+
+    </section>
+
+
+    <!-- MAIN MENU -->
+    <section class="main-menu" id="mainMenu">
+
+        <div class="menu-content">
+
+            <h1 class="menu-title">DATA CENTER MANAGEMENT</h1>
+
+            <nav class="menu-buttons">
+
+                <button class="menu-button selected" type="button">
+                    <span>START</span>
+                </button>
+
+                <button class="menu-button" type="button">
+                    <span>SETTINGS</span>
+                </button>
+
+                <button class="menu-button" type="button">
+                    <span>CREDITS</span>
+                </button>
+
+                <button class="menu-button" type="button">
+                    <span>OUT</span>
+                </button>
+
+            </nav>
+
+        </div>
+
+    </section>
+
+
+    <!-- GAME SCREEN -->
+<section class="game-screen" id="gameScreen">
+
+    <!-- CHARACTER FRAME -->
+    <div class="character-frame" id="characterFrame">
+        <div class="character-screen" id="characterScreen">
+            <img
+                src="./images/character-normal.png"
+                class="character-image"
+                id="characterNormal"
+                alt="캐릭터 기본 표정"
+            >
+            <img
+                src="./images/character-talk.png"
+                class="character-image"
+                id="characterTalk"
+                alt="캐릭터 말하는 표정"
+            >
+        </div>
+    </div>
+
+    <!-- SYSTEM MESSAGE -->
+    <div class="system-message" id="systemMessage">
+        <p class="system-message-title">SYSTEM NOTIFICATION</p>
+        <p class="system-message-content" id="systemMessageContent"></p>
+    </div>
+
+    <!-- DIALOGUE BOX -->
+    <div class="dialogue-box" id="dialogueBox">
+        <p id="dialogueText"></p>
+    </div>
+
+    <!-- TASK MENU -->
+    <div class="task-menu" id="taskMenu">
+        <div class="task-menu-header">
+            <p class="task-menu-title">WORK LIST</p>
+            <p class="task-menu-subtitle">SELECT YOUR TASK</p>
+        </div>
+
+        <!-- TASK 01 -->
+        <button class="task-button" id="task1">
+            <span class="task-number">01</span>
+            <span class="task-info">
+                <span class="task-name">에너지 효율 개선</span>
+                <span class="task-description">
+                    데이터 센터의 에너지 낭비 원인 조사
+                </span>
+            </span>
+            <span class="task-status">AVAILABLE</span>
+        </button>
+
+        <!-- TASK 02 -->
+        <button class="task-button locked" id="task2">
+            <span class="task-number">02</span>
+            <span class="task-info">
+                <span class="task-name">AI 연산 관리</span>
+                <span class="task-description">
+                    AI 연산 과정의 에너지 효율 개선
+                </span>
+            </span>
+            <span class="task-status">LOCKED</span>
+        </button>
+
+        <!-- TASK MENU FOOTER -->
+        <div class="task-menu-footer">
+            <p class="task-progress" id="taskProgress">
+                TASK PROGRESS : 0 / 2
+            </p>
+            <button
+                class="submit-button"
+                id="submitButton"
+                disabled
+            >
+                SUBMIT REPORT
+            </button>
+        </div>
+    </div>
+
+    <!-- TASK 01 SCREEN -->
+    <div class="task-screen" id="taskScreen">
+        <div class="task-header">
+            <p class="task-label">TASK 01</p>
+            <h2>에너지 효율 개선</h2>
+            <p>
+                데이터 센터의 에너지 낭비를 줄일 방안을 선택하세요.
+            </p>
+        </div>
+
+        <div class="task-choices">
+            <button class="choice-button" id="choiceA">
+                <span class="choice-number">A</span>
+                <span>전력 공급 설비 개선</span>
+            </button>
+
+            <button class="choice-button" id="choiceB">
+                <span class="choice-number">B</span>
+                <span>냉각 시스템 개선</span>
+            </button>
+        </div>
+
+        <div class="task-footer">
+            <button class="data-button" id="dataButton">
+                자료 확인
+            </button>
+        </div>
+    </div>
+
+    <!-- TASK 02 SCREEN -->
+    <div class="task-screen" id="task2Screen">
+        <div class="task-header">
+            <p class="task-label">TASK 02</p>
+            <h2>AI 연산 관리</h2>
+            <p>
+                AI 연산 과정의 에너지 효율을 높일 방안을 선택하세요.
+            </p>
+        </div>
+
+        <div class="task-choices">
+            <button class="choice-button" id="choiceC">
+                <span class="choice-number">A</span>
+                <span>서버 자원 추가</span>
+            </button>
+
+            <button class="choice-button" id="choiceD">
+                <span class="choice-number">B</span>
+                <span>AI 연산 과정 최적화</span>
+            </button>
+        </div>
+
+        <div class="task-footer">
+            <button class="data-button" id="task2DataButton">
+                자료 확인
+            </button>
+        </div>
+    </div>
+
+    <!-- DATA WINDOW -->
+    <div class="data-window" id="dataWindow">
+        <div class="data-header">
+            <span>REFERENCE DATA</span>
+            <button
+                id="closeDataButton"
+                aria-label="자료창 닫기"
+            >×</button>
+        </div>
+
+        <div class="data-content" id="dataContent">
+            자료 내용이 들어갈 공간입니다.
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ENDING SCREEN -->
+<section class="ending-screen" id="endingScreen">
+
+    <div class="ending-content">
+
+        <p class="ending-label">REPORT EVALUATION</p>
+
+        <h1 class="ending-title" id="endingTitle">
+            PERFECT
+        </h1>
+
+        <p class="ending-subtitle" id="endingSubtitle">
+            보고서 제출이 완료되었습니다.
+        </p>
+
+        <div class="ending-divider"></div>
+
+        <div class="ending-policy">
+
+            <p class="ending-policy-label">
+                GLOBAL ENVIRONMENTAL POLICY
+            </p>
+
+            <h2>해외 데이터 센터 환경 정책</h2>
+
+            <p id="endingDescription">
+                해외 여러 국가에서도 데이터 센터의
+                에너지 효율을 높이기 위한 정책을 추진하고 있습니다.
+            </p>
+
+            <div class="policy-placeholder">
+                <h3>THAILAND</h3>
+                <p>
+                    태국은 데이터센터에 별도 전기요금을 적용해
+                    전력 소비 비용을 사업자가 직접 부담하도록 하고 있다.
+                </p>
+            </div>
+
+        </div>
+
+        <p class="ending-footer">
+            DATA CENTER MANAGEMENT
+        </p>
+
+        <button class="return-menu-button" id="returnMenuButton">
+            RETURN TO MAIN MENU
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- TRANSITION LOADING -->
+<section class="transition-loading" id="transitionLoading">
+
+    <div class="loading-symbol">
+        <div class="loading-hexagon"></div>
+        <div class="loading-hexagon inner"></div>
+    </div>
+
+    <p class="transition-text">LOADING...</p>
+
+</section>
+
+</main>
+
+
+<!-- JAVASCRIPT -->
+<script src="./system.js"></script>
+<script src="./dialogue.js"></script>
+<script src="./task.js"></script>
+<script src="./script.js"></script>
+
+</body>
+</html>

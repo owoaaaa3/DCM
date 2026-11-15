@@ -1,0 +1,54 @@
+
+.loading-screen {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease,
+        visibility 0.8s;
+}
+
+.loading-screen.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.loading-screen.finished {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+}
+
+.loading-status,
+.loading-percent {
+    font-family: "DialogueFont", sans-serif;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.progress-container {
+    width: 320px;
+    max-width: 70%;
+    height: 5px;
+    background: rgba(17, 225, 225, 0.15);
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--accent-color);
+    box-shadow: 0 0 10px rgba(17, 225, 225, 0.7);
+}

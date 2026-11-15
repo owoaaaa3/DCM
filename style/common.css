@@ -1,0 +1,76 @@
+
+@font-face {
+    font-family: "TitleFont";
+    src: url("../fonts/title.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "DialogueFont";
+    src: url("../fonts/dialogue.ttf") format("truetype");
+}
+
+:root {
+    --background-color: #000000;
+    --accent-color: #11E1E1;
+    --text-color: #FFFFFF;
+    --sub-color: #888888;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: "DialogueFont", sans-serif;
+}
+
+#game {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000000;
+}
+
+.system-title {
+    font-family: "TitleFont", sans-serif;
+    color: var(--accent-color);
+    letter-spacing: 2px;
+    font-size: 38px;
+}
+
+/* WHITE FLASH */
+
+.flash {
+    position: absolute;
+    inset: 0;
+    background: #FFFFFF;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 0.35s ease;
+}
+
+.flash.active {
+    opacity: 0.6;
+    visibility: visible;
+    animation: flashFade 0.5s ease forwards;
+}
+
+@keyframes flashFade {
+    from {
+        opacity: 0.6;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

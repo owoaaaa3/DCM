@@ -1,0 +1,15 @@
+/* =========================
+   SCREEN FRAME
+========================= */
+
+.screen-frame {
+    position: absolute;
+    inset: clamp(16px, 2vw, 26px);
+
+    width: calc(100% - 2 * clamp(16px, 2vw, 26px));
+    height: calc(100% - 2 * clamp(16px, 2vw, 26px));
+
+    z-index: 5;
+    pointer-events: none;
+    overflow: visible;
+}

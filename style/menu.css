@@ -1,0 +1,163 @@
+
+.main-menu {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding-left: 9%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity 1s ease, visibility 1s;
+}
+
+.main-menu.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 55px;
+}
+
+.menu-title {
+    font-family: "TitleFont", sans-serif;
+    font-size: clamp(32px, 4.5vw, 58px);
+    line-height: 1.2;
+    white-space: nowrap;
+
+    color: var(--accent-color);
+    letter-spacing: 1px;
+}
+
+.menu-buttons {
+    width: 380px;
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.menu-button {
+    position: relative;
+
+    width: 100%;
+    height: 65px;
+
+    border: none;
+    padding: 0 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    background: rgba(17, 225, 225, 0.3);
+    color: rgba(255, 255, 255, 0.65);
+
+    cursor: pointer;
+
+    clip-path: polygon(
+        0 0,
+        94% 0,
+        100% 35%,
+        100% 100%,
+        6% 100%,
+        0 65%
+    );
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        filter 0.2s ease,
+        transform 0.2s ease;
+}
+
+.menu-button::before {
+    content: "";
+
+    position: absolute;
+    inset: 3px;
+
+    background: #000000;
+
+    clip-path: polygon(
+        0 0,
+        94% 0,
+        100% 35%,
+        100% 100%,
+        6% 100%,
+        0 65%
+    );
+
+    transition: background 0.2s ease;
+}
+
+.menu-button span {
+    position: relative;
+    z-index: 1;
+
+    font-family: "TitleFont", sans-serif;
+    font-size: 20px;
+    letter-spacing: 1.5px;
+}
+
+/* 현재 선택된 버튼 */
+.menu-button.selected {
+    background: rgba(17, 225, 225, 0.95);
+    color: #FFFFFF;
+
+    filter: drop-shadow(0 0 5px rgba(17, 225, 225, 0.45));
+    transform: translateX(10px);
+}
+
+.menu-button.selected::before {
+    background: #061414;
+}
+
+/* 마우스 모드에서만 hover 효과 적용 */
+body.mouse-mode .menu-button:hover {
+    background: rgba(17, 225, 225, 0.95);
+    color: #FFFFFF;
+
+    transform: translateX(10px);
+}
+
+body.mouse-mode .menu-button:hover::before {
+    background: #061414;
+}
+
+.menu-button:focus {
+    outline: none;
+}
+
+@media (max-width: 600px) {
+
+    .menu-content {
+        gap: 40px;
+    }
+
+    .menu-title {
+        font-size: 30px;
+    }
+
+    .menu-buttons {
+        width: 280px;
+    }
+
+    .menu-button {
+        height: 58px;
+    }
+
+    .menu-button span {
+        font-size: 18px;
+    }
+
+}

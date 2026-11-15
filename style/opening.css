@@ -1,0 +1,56 @@
+
+.standby-screen {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease,
+        visibility 0.8s;
+}
+
+.standby-screen.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.standby-screen.fade-out {
+    opacity: 0;
+    transform: translateY(25px);
+}
+
+.start-guide {
+    font-family: "DialogueFont", sans-serif;
+    font-size: 15px;
+    color: #FFFFFF;
+    opacity: 0.7;
+
+    animation: blink 1.5s infinite;
+}
+
+.start-guide.hidden {
+    animation: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 0.2;
+    }
+}

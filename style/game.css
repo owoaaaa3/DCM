@@ -1,0 +1,786 @@
+
+/* =========================
+   GAME SCREEN
+========================= */
+
+.game-screen {
+    position: absolute;
+    inset: 0;
+    background: #000000;
+    z-index: 1;
+    display: none;
+}
+
+.game-screen.visible {
+    display: block;
+}
+
+
+/* =========================
+   TRANSITION LOADING
+========================= */
+
+.transition-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+
+    background: #000000;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.transition-text {
+    color: #FFFFFF;
+    font-family: "TitleFont", sans-serif;
+    font-size: 24px;
+    letter-spacing: 5px;
+}
+
+
+/* HEXAGON */
+
+.loading-symbol {
+    position: relative;
+    width: 90px;
+    height: 90px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-hexagon {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+
+    border: 2px solid #11E1E1;
+    clip-path: polygon(
+        25% 0%, 75% 0%,
+        100% 50%, 75% 100%,
+        25% 100%, 0% 50%
+    );
+
+    outline: 2px solid #11E1E1;
+    animation: hexagon-rotate 4s linear infinite;
+}
+
+.loading-hexagon.inner {
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+    animation-direction: reverse;
+    animation-duration: 3s;
+}
+
+@keyframes hexagon-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================
+   TRANSITION ANIMATION
+========================= */
+
+/* 메뉴 사라짐 */
+#game.is-transitioning .main-menu {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+/* 프레임 축소 */
+#game.is-transitioning .screen-frame {
+    transform: scaleX(0.35) scaleY(0.7);
+    transition: transform 0.8s ease-in-out;
+}
+
+/* 프레임 원상 복귀 */
+#game.is-loaded .screen-frame {
+    transform: scaleX(1) scaleY(1);
+    transition: transform 0.8s ease-in-out;
+}
+
+/* 로딩 화면 등장 */
+#game.is-transitioning .transition-loading {
+    opacity: 1;
+    transition: opacity 0.5s ease 0.5s;
+}
+
+/* 로딩 완료 후 */
+#game.is-loaded .transition-loading {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+
+/* =========================
+   CHARACTER FRAME
+========================= */
+
+.character-frame {
+    position: absolute;
+
+    left: 6%;
+    bottom: 8%;
+
+    width: 180px;
+    height: 190px;
+
+    border: 2px solid rgba(17, 225, 225, 0.8);
+    background: #000000;
+
+    opacity: 0;
+    transform: scale(0.95);
+
+    z-index: 2;
+}
+
+/* 프레임 등장 */
+.character-frame.visible {
+    animation: frame-appear 0.6s ease-out forwards;
+}
+
+@keyframes frame-appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* =========================
+   CHARACTER SCREEN
+========================= */
+
+.character-screen {
+    position: absolute;
+    inset: 0;
+
+    overflow: hidden;
+    background: #000000;
+
+    /* 처음에는 중앙의 가로선만 보이도록 */
+    clip-path: inset(50% 0 50% 0);
+}
+
+/* 중앙 점등 빛 */
+.character-screen::before {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: #FFFFFF;
+    box-shadow: 0 0 12px #11E1E1;
+
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* 화면 점등 */
+.character-screen.active {
+    animation: screen-expand 0.4s ease-out forwards;
+}
+
+/* 중앙 빛 확장 */
+.character-screen.active::before {
+    animation: screen-beam 0.4s ease-out forwards;
+}
+
+/* 화면 확장 애니메이션 */
+@keyframes screen-expand {
+    0% {
+        clip-path: inset(50% 0 50% 0);
+    }
+
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* 빛 확장 애니메이션 */
+@keyframes screen-beam {
+    0% {
+        opacity: 1;
+        height: 3px;
+    }
+
+    50% {
+        opacity: 1;
+        height: 8px;
+    }
+
+    100% {
+        opacity: 0;
+        height: 100%;
+    }
+}
+
+
+/* =========================
+   CHARACTER IMAGE
+========================= */
+
+.character-image {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center bottom;
+
+    opacity: 0;
+}
+
+/* 기본 표정 등장 */
+.character-screen.active #characterNormal {
+    animation: character-appear 0.55s ease-out 0.1s forwards;
+}
+
+/* 캐릭터 등장 애니메이션 */
+@keyframes character-appear {
+    0% {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   DIALOGUE BOX
+========================= */
+
+.dialogue-box {
+    position: absolute;
+
+    left: calc(6% + 180px + 25px);
+    bottom: 8%;
+
+    width: 550px;
+    min-height: 120px;
+
+    padding: 20px;
+
+    background: #000000;
+    border: 2px solid rgba(17, 225, 225, 0.8);
+
+    box-sizing: border-box;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 대사창 등장 */
+.dialogue-box.visible {
+    opacity: 1;
+}
+
+
+/* 대사 텍스트 */
+
+.dialogue-box p {
+    margin: 0;
+
+    color: #FFFFFF;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+
+    text-align: left;
+}
+
+/* =========================
+   SYSTEM MESSAGE
+========================= */
+
+.system-message {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 550px;
+    min-height: 150px;
+
+    padding: 25px;
+
+    box-sizing: border-box;
+
+    background: #000000;
+    border: 2px solid #11E1E1;
+
+    text-align: center;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 시스템 메시지 제목 */
+
+.system-message-title {
+    margin: 0 0 20px;
+
+    color: #11E1E1;
+    font-family: "TitleFont", sans-serif;
+    font-size: 16px;
+    letter-spacing: 3px;
+}
+
+/* 시스템 메시지 내용 */
+
+.system-message-content {
+    margin: 0;
+
+    color: #FFFFFF;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+/* 메시지 표시 */
+
+.system-message.visible {
+    opacity: 1;
+}
+
+/* 시스템 메시지 퇴장 */
+.system-message.hidden {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* =========================
+   TASK MENU
+========================= */
+
+.task-menu {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 650px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: 4;
+}
+
+.task-menu.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 메뉴 제목 */
+
+.task-menu-header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.task-menu-title {
+    margin: 0;
+
+    color: #11E1E1;
+    font-family: "TitleFont", sans-serif;
+    font-size: 32px;
+    letter-spacing: 5px;
+}
+
+.task-menu-subtitle {
+    margin: 8px 0 0;
+
+    color: #888888;
+    font-family: "TitleFont", sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+}
+
+
+/* 업무 버튼 */
+
+.task-button {
+    width: 100%;
+    min-height: 110px;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    padding: 20px 25px;
+
+    background: #000000;
+    border: 2px solid #11E1E1;
+
+    color: #FFFFFF;
+    text-align: left;
+
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.task-button:hover:not(.locked) {
+    background: rgba(17, 225, 225, 0.12);
+    transform: translateX(5px);
+}
+
+
+/* 번호 */
+
+.task-number {
+    color: #11E1E1;
+    font-family: "TitleFont", sans-serif;
+    font-size: 30px;
+}
+
+
+/* 업무 정보 */
+
+.task-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    flex: 1;
+}
+
+.task-name {
+    font-family: "DialogueFont", sans-serif;
+    font-size: 20px;
+}
+
+.task-description {
+    color: #888888;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 13px;
+}
+
+
+/* 상태 */
+
+.task-status {
+    color: #11E1E1;
+    font-family: "TitleFont", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+
+/* 잠긴 업무 */
+
+.task-button.locked {
+    border-color: #444444;
+    opacity: 0.4;
+    cursor: default;
+}
+
+.task-button.locked .task-number,
+.task-button.locked .task-status {
+    color: #888888;
+}
+
+
+/* 진행 상황 */
+
+.task-progress {
+    margin: 5px 0 0;
+
+    color: #888888;
+    font-family: "TitleFont", sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+
+    text-align: center;
+}
+
+/* =========================
+   TASK SCREEN
+========================= */
+
+.task-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 650px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: 4;
+}
+
+.task-screen.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* 제목 */
+
+.task-header {
+    text-align: center;
+}
+
+.task-label {
+    color: #11E1E1;
+    font-family: "TitleFont", sans-serif;
+    letter-spacing: 3px;
+}
+
+.task-header h2 {
+    color: #FFFFFF;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 26px;
+}
+
+.task-header p:last-child {
+    color: #888888;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 15px;
+}
+
+
+/* 선택지 */
+
+.task-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.choice-button {
+    width: 100%;
+    min-height: 75px;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    padding: 20px;
+
+    background: #000000;
+    border: 2px solid #11E1E1;
+
+    color: #FFFFFF;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 18px;
+
+    text-align: left;
+    cursor: pointer;
+
+    transition: background 0.2s;
+}
+
+.choice-button:hover {
+    background: rgba(17, 225, 225, 0.12);
+}
+
+.choice-number {
+    color: #11E1E1;
+    font-family: "TitleFont", sans-serif;
+    font-size: 24px;
+}
+
+
+/* 자료 버튼 */
+
+.task-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.data-button {
+    padding: 8px 16px;
+
+    background: transparent;
+    border: 1px solid rgba(17, 225, 225, 0.6);
+
+    color: #11E1E1;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.data-button:hover {
+    background: rgba(17, 225, 225, 0.12);
+}
+
+
+/* =========================
+   DATA WINDOW
+========================= */
+
+.data-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 550px;
+    min-height: 300px;
+
+    padding: 25px;
+
+    box-sizing: border-box;
+
+    background: #000000;
+    border: 2px solid #11E1E1;
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: 6;
+}
+
+.data-window.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.data-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(17, 225, 225, 0.5);
+
+    color: #11E1E1;
+    font-family: "TitleFont", sans-serif;
+}
+
+.data-header button {
+    background: none;
+    border: none;
+
+    color: #FFFFFF;
+    font-size: 24px;
+
+    cursor: pointer;
+}
+
+.data-content {
+    padding-top: 20px;
+
+    color: #FFFFFF;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+/* DATA CONTENT */
+
+.data-content h3 {
+    margin: 0 0 20px;
+
+    color: #11E1E1;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 20px;
+}
+
+.data-content p {
+    margin: 0 0 15px;
+
+    color: #FFFFFF;
+    font-family: "DialogueFont", sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.data-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+
+/* TASK MENU FOOTER */
+
+.task-menu-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.submit-button {
+    padding: 12px 24px;
+    border: 1px solid #11E1E1;
+    background: transparent;
+    color: #11E1E1;
+    font-family: "TitleFont", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0.3;
+    pointer-events: none;
+    transition: 0.2s ease;
+}
+
+.submit-button:disabled {
+    cursor: default;
+}
+
+.submit-button:not(:disabled) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.submit-button:not(:disabled):hover {
+    background: #11E1E1;
+    color: #000000;
+}
