@@ -1,15 +1,17 @@
-// =========================
-// SYSTEM MESSAGE
-// =========================
 
 const systemMessage = document.getElementById("systemMessage");
 const systemMessageContent = document.getElementById("systemMessageContent");
 
 let systemMessageActive = false;
+let systemMessageTimer = null;
 
 
 // 시스템 메시지 표시
 function showSystemMessage(message) {
+    if (systemMessageTimer !== null) {
+        clearTimeout(systemMessageTimer);
+        systemMessageTimer = null;
+    }
 
     systemMessageContent.textContent = message;
 
@@ -17,25 +19,34 @@ function showSystemMessage(message) {
     systemMessage.classList.add("visible");
 
     systemMessageActive = true;
-
 }
 
 
 // 시스템 메시지 종료
 function hideSystemMessage() {
-
     systemMessage.classList.add("hidden");
 
-    setTimeout(() => {
-
+    systemMessageTimer = setTimeout(() => {
         systemMessage.classList.remove("visible");
         systemMessageActive = false;
+        systemMessageTimer = null;
 
-        // 첫 번째 캐릭터 대사 시작
         showDialogue();
-
     }, 300);
+}
 
+
+// 시스템 메시지 초기화
+function resetSystemMessage() {
+    if (systemMessageTimer !== null) {
+        clearTimeout(systemMessageTimer);
+        systemMessageTimer = null;
+    }
+
+    systemMessageActive = false;
+
+    systemMessage.classList.remove("visible", "hidden");
+    systemMessageContent.textContent = "";
 }
 
 
@@ -43,10 +54,8 @@ function hideSystemMessage() {
 // SPACEBAR INPUT
 // =========================
 
-document.addEventListener("keydown", (event) => {
-
+document.addEventListener("keydown", event => {
     if (!systemMessageActive) return;
-
     if (event.code !== "Space") return;
 
     event.preventDefault();
@@ -55,5 +64,4 @@ document.addEventListener("keydown", (event) => {
     if (event.repeat) return;
 
     hideSystemMessage();
-
 }, true);

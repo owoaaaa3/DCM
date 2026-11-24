@@ -1,0 +1,401 @@
+
+/* =========================
+   RHYTHM GAME SCREEN
+========================= */
+
+.rhythm-screen {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 35px 8%;
+
+    background: rgba(2, 10, 16, 0.97);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity 0.4s ease, visibility 0.4s;
+
+    z-index: 20;
+
+    pointer-events: none;
+}
+
+.rhythm-screen.visible {
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.rhythm-header {
+    width: 100%;
+
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+.rhythm-label {
+    margin: 0 0 8px;
+
+    color: #11E1E1;
+
+    font-size: 13px;
+    letter-spacing: 4px;
+
+    text-shadow: 0 0 10px rgba(17, 225, 225, 0.7);
+}
+
+.rhythm-header h2 {
+    margin: 0;
+
+    color: #E9FFFF;
+
+    font-size: 25px;
+    letter-spacing: 3px;
+}
+
+#rhythmProgress {
+    margin-top: 12px;
+
+    color: rgba(17, 225, 225, 0.8);
+
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   GAME AREA
+========================= */
+
+
+.rhythm-game-area {
+    position: relative;
+
+    width: 100%;
+    max-width: 440px;
+
+    height: 520px;
+
+    display: flex;
+    justify-content: center;
+
+    border: 1px solid rgba(17, 225, 225, 0.35);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(17, 225, 225, 0.03),
+            rgba(17, 225, 225, 0.09)
+        );
+
+    box-shadow:
+        0 0 20px rgba(17, 225, 225, 0.08),
+        inset 0 0 25px rgba(17, 225, 225, 0.04);
+
+    overflow: hidden;
+}
+
+
+
+/* =========================
+   LANES
+========================= */
+
+.rhythm-lanes {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.rhythm-lane {
+    position: relative;
+
+    height: 100%;
+
+    border-left: 1px solid rgba(17, 225, 225, 0.15);
+
+    background: rgba(17, 225, 225, 0.015);
+}
+
+.rhythm-lane:last-child {
+    border-right: 1px solid rgba(17, 225, 225, 0.15);
+}
+
+
+/* =========================
+   NOTE CONTAINER
+========================= */
+
+.rhythm-note-container {
+    position: absolute;
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   NOTES
+========================= */
+
+
+.rhythm-note {
+    position: absolute;
+
+    left: 0;
+
+    width: 100%;
+    height: 14px;
+
+    box-sizing: border-box;
+
+    border: 2px solid #11E1E1;
+
+    background: rgba(17, 225, 225, 0.75);
+
+    box-shadow:
+        0 0 8px #11E1E1,
+        0 0 18px rgba(17, 225, 225, 0.65);
+
+    border-radius: 2px;
+
+    pointer-events: none;
+}
+
+
+
+/* =========================
+   TARGET LINE
+========================= */
+
+
+.rhythm-target {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    right: 0;
+
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+    font-weight: bold;
+
+    color: #00eaff;
+
+    border-top: 2px solid rgba(0, 234, 255, 0.8);
+    border-bottom: 2px solid rgba(0, 234, 255, 0.8);
+
+    background: rgba(0, 234, 255, 0.08);
+
+    z-index: 2;
+}
+
+
+
+/* =========================
+   TARGET HIT EFFECT
+========================= */
+
+.rhythm-target.hit {
+    background: rgba(17, 225, 225, 0.5);
+
+    box-shadow:
+        0 0 18px #11E1E1,
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+
+/* =========================
+   JUDGEMENT
+========================= */
+
+.rhythm-judgement {
+    position: absolute;
+
+    top: 45%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    color: #FFFFFF;
+
+    font-size: 23px;
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        0 0 8px #11E1E1,
+        0 0 18px #11E1E1;
+
+    pointer-events: none;
+
+    z-index: 5;
+}
+
+
+/* =========================
+   RESULT SCREEN
+========================= */
+
+.rhythm-result {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(2, 10, 16, 0.96);
+
+    z-index: 10;
+
+    text-align: center;
+}
+
+.rhythm-result[hidden] {
+    display: none;
+}
+
+.rhythm-result > p:first-child {
+    color: #11E1E1;
+
+    font-size: 14px;
+    letter-spacing: 4px;
+}
+
+#rhythmGrade {
+    margin: 10px 0;
+
+    color: #EFFFFF;
+
+    font-size: 100px;
+
+    text-shadow:
+        0 0 15px #11E1E1,
+        0 0 35px rgba(17, 225, 225, 0.8);
+}
+
+#rhythmAccuracy {
+    margin: 0;
+
+    color: #11E1E1;
+
+    font-size: 27px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   RESULT BREAKDOWN
+========================= */
+
+#rhythmBreakdown {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    gap: 12px;
+
+    margin: 25px 0;
+
+    color: #D7EEEE;
+
+    font-size: 13px;
+}
+
+.rhythm-result-item {
+    padding: 8px 12px;
+
+    border: 1px solid rgba(17, 225, 225, 0.35);
+
+    background: rgba(17, 225, 225, 0.07);
+}
+
+
+/* =========================
+   CONTINUE BUTTON
+========================= */
+
+#rhythmContinueButton {
+    padding: 12px 35px;
+
+    color: #11E1E1;
+
+    font-size: 14px;
+    letter-spacing: 3px;
+
+    border: 1px solid #11E1E1;
+
+    background: rgba(17, 225, 225, 0.08);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        color 0.2s ease;
+}
+
+#rhythmContinueButton:hover {
+    color: #001014;
+
+    background: #11E1E1;
+
+    box-shadow:
+        0 0 12px #11E1E1,
+        0 0 25px rgba(17, 225, 225, 0.6);
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    .rhythm-screen {
+        padding: 25px 5%;
+    }
+
+    .rhythm-header h2 {
+        font-size: 18px;
+    }
+
+    .rhythm-game-area {
+        height: 420px;
+    }
+
+    .rhythm-note {
+        height: 14px;
+    }
+
+    #rhythmGrade {
+        font-size: 75px;
+    }
+
+}

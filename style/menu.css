@@ -20,12 +20,23 @@
     visibility: visible;
 }
 
+/* =========================
+   MENU CONTENT
+========================= */
+
 .menu-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 55px;
+
+    position: relative;
+    z-index: 2;
 }
+
+/* =========================
+   MENU TITLE
+========================= */
 
 .menu-title {
     font-family: "TitleFont", sans-serif;
@@ -35,7 +46,30 @@
 
     color: var(--accent-color);
     letter-spacing: 1px;
+
+    animation: titleGlow 4s ease-in-out infinite;
 }
+
+/* 느릿한 발광 효과 */
+
+@keyframes titleGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 5px rgba(0, 255, 220, 0.25),
+            0 0 12px rgba(0, 255, 220, 0.15);
+    }
+
+    50% {
+        text-shadow:
+            0 0 8px rgba(0, 255, 220, 0.65),
+            0 0 20px rgba(0, 255, 220, 0.4),
+            0 0 35px rgba(0, 255, 220, 0.2);
+    }
+}
+
+/* =========================
+   MENU BUTTONS
+========================= */
 
 .menu-buttons {
     width: 380px;
@@ -110,6 +144,7 @@
 }
 
 /* 현재 선택된 버튼 */
+
 .menu-button.selected {
     background: rgba(17, 225, 225, 0.95);
     color: #FFFFFF;
@@ -123,6 +158,7 @@
 }
 
 /* 마우스 모드에서만 hover 효과 적용 */
+
 body.mouse-mode .menu-button:hover {
     background: rgba(17, 225, 225, 0.95);
     color: #FFFFFF;
@@ -137,6 +173,240 @@ body.mouse-mode .menu-button:hover::before {
 .menu-button:focus {
     outline: none;
 }
+
+/* =========================
+   CHARACTER DISPLAY
+========================= */
+
+.character-display {
+    position: absolute;
+
+    right: 5%;
+    bottom: 0;
+
+    width: clamp(300px, 38vw, 550px);
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+/* 캐릭터 화면 */
+
+.character-display-screen {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0, 255, 220, 0.02),
+            rgba(0, 255, 220, 0.08)
+        );
+
+    border: 1px solid rgba(17, 225, 225, 0.2);
+
+    box-shadow:
+        0 0 15px rgba(17, 225, 225, 0.08),
+        inset 0 0 25px rgba(17, 225, 225, 0.05);
+}
+
+/* 캐릭터 이미지 */
+
+.menu-character {
+    position: relative;
+
+    height: 95%;
+    width: auto;
+    max-width: 100%;
+
+    object-fit: contain;
+    object-position: bottom center;
+
+    z-index: 1;
+
+    filter:
+        drop-shadow(0 0 8px rgba(17, 225, 225, 0.12));
+
+    animation: characterGlitch 8s infinite;
+}
+
+/* =========================
+   SCANLINES
+========================= */
+
+.character-scanlines {
+    position: absolute;
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(0, 0, 0, 0.15) 4px
+        );
+
+    opacity: 0.35;
+}
+
+/* 화면 밝기 변화 */
+
+.character-display-screen::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 3;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(17, 225, 225, 0.04) 50%,
+            transparent 100%
+        );
+
+    animation: screenLight 5s ease-in-out infinite;
+}
+
+@keyframes screenLight {
+    0%, 100% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* =========================
+   GLITCH
+========================= */
+
+.character-glitch {
+    position: absolute;
+    inset: 0;
+
+    z-index: 4;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 48%,
+            rgba(17, 225, 225, 0.15) 50%,
+            transparent 52%
+        );
+
+    opacity: 0;
+
+    animation: glitchFlash 7s infinite;
+}
+
+/* 가끔 발생하는 짧은 글리치 */
+
+@keyframes glitchFlash {
+    0%, 90%, 92%, 100% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    91% {
+        opacity: 0.5;
+        transform: translateX(-3px);
+    }
+
+    91.5% {
+        opacity: 0.2;
+        transform: translateX(3px);
+    }
+}
+
+/* 캐릭터 이미지 순간 흔들림 */
+
+@keyframes characterGlitch {
+    0%, 90%, 92%, 100% {
+        transform: translateX(0);
+        filter:
+            drop-shadow(0 0 8px rgba(17, 225, 225, 0.12));
+    }
+
+    91% {
+        transform: translateX(-2px);
+        filter:
+            drop-shadow(2px 0 rgba(255, 0, 80, 0.2))
+            drop-shadow(-2px 0 rgba(0, 255, 255, 0.2));
+    }
+
+    91.5% {
+        transform: translateX(2px);
+    }
+}
+
+/* =========================
+   DISPLAY LABEL
+========================= */
+
+.character-display-label {
+    position: absolute;
+
+    bottom: 20px;
+    left: 15px;
+    right: 15px;
+
+    display: flex;
+    justify-content: space-between;
+
+    z-index: 5;
+
+    font-family: "TitleFont", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+
+    color: rgba(17, 225, 225, 0.6);
+}
+
+.display-status {
+    color: rgba(17, 225, 225, 0.8);
+
+    animation: statusBlink 3s ease-in-out infinite;
+}
+
+@keyframes statusBlink {
+    0%, 100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 600px) {
 
@@ -158,6 +428,17 @@ body.mouse-mode .menu-button:hover::before {
 
     .menu-button span {
         font-size: 18px;
+    }
+
+    .character-display {
+        width: 45%;
+        height: 70%;
+
+        right: 0;
+    }
+
+    .character-display-label {
+        font-size: 8px;
     }
 
 }
